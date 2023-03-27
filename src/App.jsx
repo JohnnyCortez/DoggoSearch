@@ -1,20 +1,20 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 const petFinderAPI = "https://api.petfinder.com/v2";
 const API_KEY = "hMt4PzpbJDOd6ZGhQCZu7vigLytEIKhSjV9OE6HSSjEZcWXN0T";
-const API_Secret = "FPJuhpj020BX2QNoFaAz09uyNNLyjAGQng1UrOnF";
+const API_SECRET = "FPJuhpj020BX2QNoFaAz09uyNNLyjAGQng1UrOnF";
 
-function App([Component, pageProps]) {
+function App() {
   const [pets, setPets] = useState([]);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
-    async function getPets() {
+    async function getToken() {
       const params = new URLSearchParams();
       params.append("grant_type", "client_credentials");
       params.append("client_id", API_KEY);
-      params.append("client_secret", API_Secret);
+      params.append("client_secret", API_SECRET);
       const response = await fetch(petFinderAPI + "/oauth2/token", {
         method: "POST",
         body: params,
@@ -23,24 +23,36 @@ function App([Component, pageProps]) {
       console.log(data);
       setAccessToken(data.access_token);
     }
-    getPets();
+
+    getToken();
   }, []);
 
   useEffect(() => {
-    async function getPets() {
+    async function getAnimals() {
       const response = await fetch(`${petFinderAPI}/animals`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const data = await response.json();
-      console.log(data);
+      const data = await response.json();      
       setPets(data.animals);
     }
-    getPets();
-  }, []);
+    if (accessToken) {
+      getAnimals();
+    }
+  }, [accessToken]);
 
-  return <div className="App"></div>;
+  useEffect(() => {
+  console.log(pets);
+}, [pets]);
+
+  return (
+    <div className="App">
+    <ul>
+      {pets.map(pet => <li key={pet.id}>{pet.name}</li>)}
+    </ul>
+  </div>
+  );
 }
 
 export default App;
