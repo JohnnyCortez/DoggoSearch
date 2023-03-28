@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import MainGallery from "../Components/MainGallery";
 import FilterOptions from "../Components/FilterOptions";
+import SummaryTabs from "../Components/SummaryTab";
 import "./App.css";
 
 //displays current list of fetched pets with information about each
@@ -17,6 +18,9 @@ function App() {
   const [accessToken, setAccessToken] = useState("");
   const [shibaInuCount, setShibaInuCount] = useState(0);
   const [filters, setFilters] = useState({ age: "", gender: "", size: "" });
+  const [ageMode, setAgeMode] = useState("");
+  const [genderMode, setGenderMode] = useState("");
+  const [sizeMode, setSizeMode] = useState("");
 
 
   useEffect(() => {
@@ -53,7 +57,7 @@ function App() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const data = await response.json();      
+      const data = await response.json();
       setPets(data.animals);
       const totalCount = data.pagination.total_count;
       setShibaInuCount(totalCount);
@@ -61,33 +65,51 @@ function App() {
     if (accessToken) {
       getAnimals();
     }
-  }, [accessToken]);
+  }, [accessToken, filters.age, filters.size, filters.gender]);
 
   useEffect(() => {
-  console.log(pets);
-}, [pets]);
+    console.log(pets);
+  }, [pets]);
 
+  function handleFilterChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    console.log("this works");
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+    console.log(filters);
+  }
 
-function handleFilterChange(event) {
-  const name = event.target.name;
-  const value = event.target.value;
-  setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-}
+  function getMode(arr) {
+    const count = arr.reduce((acc, val) => {
+      acc[val] = (acc[val] || 0) + 1;
+      return acc;
+    }, {});
+    const maxCount = Math.max(...Object.values(count));
+    const mode = Object.keys(count).find((key) => count[key] === maxCount);
+    return mode;
+  }
 
+  useEffect(() => {
+    const ageArray = pets.map((pet) => pet.age);
+    const genderArray = pets.map((pet) => pet.gender);
+    const sizeArray = pets.map((pet) => pet.size);
+    setAgeMode(getMode(ageArray));
+    setGenderMode(getMode(genderArray));
+    setSizeMode(getMode(sizeArray));
+  }, [pets, filters.age, filters.size, filters.gender]);
 
   return (
     <div className="App">
       <div className="heading">
         <h1>SHIBIE FINDER</h1>
-        <h3>Adpot Doge (the yellow dog)</h3>
-        <p>Total Shiba Inus: {shibaInuCount}</p>
+        <h2>Adopt Doge (the yellow dog)</h2>
       </div>
-      <FilterOptions filters={filters} handleChange={handleFilterChange}/>
-
+      <FilterOptions filters={filters} handleChange={handleFilterChange} />
+      <SummaryTabs ageMode={ageMode} sizeMode={sizeMode} genderMode={genderMode} count={shibaInuCount} />
       <div className="body">
-      {pets.length > 0 && <MainGallery pets={pets} />}
+        {pets.length > 0 && <MainGallery pets={pets} />}
       </div>
-  </div>
+    </div>
   );
 }
 

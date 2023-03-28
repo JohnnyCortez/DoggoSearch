@@ -5,12 +5,33 @@
   text-align: center;
 }
 
-.pet {
+.filters {
+  background-color: lightgray;
+}
+
+.summary {
+  background-attachment: fixed;
+  background-color: lightgray;
+}
+
+.heading {
   background-color: gray;
 }
 
+.heading h1{
+  color: yellow
+}
+
+.heading h2 {
+  color: white
+}
+
 .body {
-  display: flex;
+  display: fixed;
+}
+
+.pet{
+  background-color: lightgray;
 }
 
 .heading {

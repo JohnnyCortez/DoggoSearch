@@ -1,23 +1,23 @@
 import { useState } from "react";
 
-function MainGallery(props) {
-  const [count, setCount] = useState(0);
 
+function MainGallery(props) {
   return (
     <div>
       {props.pets.map((pet) => (
-        <div>
-          <div key={pet.id}>{pet.name}</div>
+        <div className="pet">
+          <div key={pet.id}>
+            <h3>{pet.name}</h3>
+          </div>
           {pet.photos.length > 0 ? (
             <div>
-            <img src={pet.photos[0].small} width="100" height="100" />
-            <p>{`Gender: ${pet.gender}`}</p>
-            <p>{`Age: ${pet.age}`}</p>            
-            <p>{`Size: ${pet.size}`}</p>
-            <p>{`Coat: ${pet.coat}`}</p>
+              <img src={pet.photos[0].small} width="150" height="150" />
+              <p>{`Gender: ${pet.gender}`}</p>
+              <p>{`Age: ${pet.age}`}</p>
+              <p>{`Size: ${pet.size}`}</p>
             </div>
           ) : (
-            ''
+            ""
           )}
         </div>
       ))}
