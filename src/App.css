@@ -5,8 +5,16 @@
   text-align: center;
 }
 
-.App {
+.pet {
+  background-color: gray;
+}
+
+.body {
   display: flex;
+}
+
+.heading {
+  display: center;
 }
 
 .logo {
