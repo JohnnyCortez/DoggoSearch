@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
+import MainGallery from "../Components/MainGallery";
 import "./App.css";
+
+//displays current list of fetched pets with information about each
+//summary stats- total number of fetched pets, most common age, most common coat
+//search- through names in the fetched pets
+//filter- through breed type, size, and gender
 
 const petFinderAPI = "https://api.petfinder.com/v2";
 const API_KEY = "hMt4PzpbJDOd6ZGhQCZu7vigLytEIKhSjV9OE6HSSjEZcWXN0T";
 const API_SECRET = "FPJuhpj020BX2QNoFaAz09uyNNLyjAGQng1UrOnF";
+
+
 
 function App() {
   const [pets, setPets] = useState([]);
@@ -48,9 +56,7 @@ function App() {
 
   return (
     <div className="App">
-    <ul>
-      {pets.map(pet => <li key={pet.id}>{pet.name}</li>)}
-    </ul>
+      <MainGallery pets={pets}/>
   </div>
   );
 }
