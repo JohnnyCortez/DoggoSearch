@@ -21,6 +21,8 @@ function App() {
   const [ageMode, setAgeMode] = useState("");
   const [genderMode, setGenderMode] = useState("");
   const [sizeMode, setSizeMode] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
 
   useEffect(() => {
@@ -40,6 +42,8 @@ function App() {
     getToken();
   }, []);
 
+
+  // I added pets in the dependency to get new shiba count with each update in search
   useEffect(() => {
     async function getAnimals() {
       let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=100`;
@@ -65,7 +69,7 @@ function App() {
     if (accessToken) {
       getAnimals();
     }
-  }, [accessToken, filters.age, filters.size, filters.gender]);
+  }, [accessToken, pets, filters.age, filters.size, filters.gender]);
 
   useEffect(() => {
     console.log(pets);
@@ -98,14 +102,43 @@ function App() {
     setSizeMode(getMode(sizeArray));
   }, [pets, filters.age, filters.size, filters.gender]);
 
+
+  const searchItems = (searchValue) => {
+    console.log("searchValue:", searchValue);
+    setSearchInput(searchValue);
+    if (searchValue !== "") {
+      const filteredData = pets.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setFilteredResults(filteredData);
+    } else {
+      setFilteredResults(pets);
+    }
+  };
+
+  useEffect(() => {
+    console.log("filteredResults:", filteredResults);
+    const filteredPets = pets.filter(pet =>
+      pet.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setPets(filteredPets);
+  }, [searchInput]);
+
   return (
     <div className="App">
       <div className="heading">
-        <h1>SHIBIE FINDER</h1>
+        <h1>SHIBIE SEARCH</h1>
         <h2>Adopt Doge (the yellow dog)</h2>
       </div>
       <FilterOptions filters={filters} handleChange={handleFilterChange} />
       <SummaryTabs ageMode={ageMode} sizeMode={sizeMode} genderMode={genderMode} count={shibaInuCount} />
+
+      <input
+        type="text"
+        placeholder="Search..."
+        onChange={(inputString) => searchItems(inputString.target.value)}
+      />
+
       <div className="body">
         {pets.length > 0 && <MainGallery pets={pets} />}
       </div>
