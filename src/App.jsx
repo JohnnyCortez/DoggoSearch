@@ -69,7 +69,7 @@ function App() {
     if (accessToken) {
       getAnimals();
     }
-  }, [accessToken, pets, filters.age, filters.size, filters.gender]);
+  }, [accessToken, filters.age, filters.size, filters.gender]);
 
   useEffect(() => {
     console.log(pets);
@@ -105,12 +105,15 @@ function App() {
 
   const searchItems = (searchValue) => {
     console.log("searchValue:", searchValue);
+    console.log("filteredResults", filteredResults)
     setSearchInput(searchValue);
     if (searchValue !== "") {
       const filteredData = pets.filter((item) =>
         item.name.toLowerCase().includes(searchValue.toLowerCase())
       );
       setFilteredResults(filteredData);
+      const totalCount = filteredResults.length;
+      setShibaInuCount(totalCount);
     } else {
       setFilteredResults(pets);
     }
@@ -118,11 +121,11 @@ function App() {
 
   useEffect(() => {
     console.log("filteredResults:", filteredResults);
-    const filteredPets = pets.filter(pet =>
-      pet.name.toLowerCase().includes(search.toLowerCase())
-    );
-    setPets(filteredPets);
-  }, [searchInput]);
+    // const filteredPets = pets.filter(pet =>
+    //   pet.name.toLowerCase().includes(searchInput.toLowerCase())
+    // );
+    setPets(filteredResults);
+  }, [filteredResults]);
 
   return (
     <div className="App">
@@ -140,7 +143,7 @@ function App() {
       />
 
       <div className="body">
-        {pets.length > 0 && <MainGallery pets={pets} />}
+        {(pets.length > 0 && <MainGallery pets={pets} />)}
       </div>
     </div>
   );
