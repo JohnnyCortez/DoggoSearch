@@ -12,20 +12,21 @@ The following **required** functionality is completed:
 
 List of Data - completed
   
-3 Summary Data Statistics - partially
+3 Summary Data Statistics - completed
 
-Search Data - not completed
+Search Data - completed
 
-Filter Data - partially
+Filter Data - completed
 
 The following **optional** features are implemented:
-...
+
+Multiple filters can be applied simultaneously - completed
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented features:
 
-<img src='Animation_Gif_dogFinder.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='Animation_Gif_ShibieSearch..gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with ScreenToGif
 
