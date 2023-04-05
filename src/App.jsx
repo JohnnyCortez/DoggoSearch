@@ -47,7 +47,7 @@ function App() {
   // I added pets in the dependency to get new shiba count with each update in search
   useEffect(() => {
     async function getAnimals() {
-      let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=100`;
+      let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=1`;
       if (filters.age) {
         query += `&age=${filters.age}`;
       }
