@@ -8,7 +8,9 @@ function MainGallery(props) {
       {props.pets.map((pet) => (
         <div className="pet">
           <div key={pet.id}>
+          <Link to={`/Pet/${pet.id}`} state={{pet: pet}}>
             <h3>{pet.name}</h3>
+          </Link>
           </div>
           {pet.photos.length > 0 ? (
             <div>

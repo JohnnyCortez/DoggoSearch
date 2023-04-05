@@ -1,16 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 function PetDetails(props) {
-    const { id } = useParams();
-    
+    const location = useLocation();
 
-    const findPetById = (id) => {
-        return pets.find((pet) => pet.id === id);
-      }
-    
-    const pet = findPetById(id)
-
+    const {pet} = location.state;
   return (
     <div>
       <h2>{pet.name}</h2>
