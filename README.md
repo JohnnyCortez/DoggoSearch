@@ -4,7 +4,7 @@ Submitted by: Johnny A. Cortez
 
 Search for Shibies(Shiba Inus)!
 
-Time spent: 6 hours spent in total
+Time spent: 6 hours spent in total + 6 hours for V2
 
 ## Required Features
 
@@ -18,6 +18,16 @@ Search Data - completed
 
 Filter Data - completed
 
+Add Data Visualizations - completed
+
+The app includes at least one unique chart developed using the fetched data that tell an interesting story - completed
+
+Add Links to Detail View - completed
+
+Clicking on an item in the list view displays more details about it - completed
+
+Each detail view of an item has a direct, unique link to that item’s detail view page - completed
+
 The following **optional** features are implemented:
 
 Multiple filters can be applied simultaneously - completed
@@ -26,7 +36,7 @@ Multiple filters can be applied simultaneously - completed
 
 Here's a walkthrough of implemented features:
 
-<img src='Animation_Gif_ShibieSearch..gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='Animation_Gif_ShibieSearchV2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with ScreenToGif
 
