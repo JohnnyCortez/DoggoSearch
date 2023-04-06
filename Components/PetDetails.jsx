@@ -10,7 +10,8 @@ function PetDetails(props) {
   return (
     <div>
       <h2>{pet.name}</h2>
-      <img src={pet.photos[0].large} alt={pet.name} />
+      {pet.photos.length > 0 ? <img src={pet.photos[0].large} alt={pet.name} />
+      : <h4>No Image Available</h4>}
       <p>{`Gender: ${pet.gender}`}</p>
       <p>{`Age: ${pet.age}`}</p>
       <p>{`Size: ${pet.size}`}</p>      

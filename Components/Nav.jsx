@@ -8,10 +8,9 @@ function Nav(props) {
         <Link to="/"> Home
         </Link>
         <br/>
-        <Link to="/" > Summary Graph
+        <Link to={`/SummaryGraph`} state={{props}} > Summary Graph
         </Link>
     </div>
   );
 }
-
 export default Nav;

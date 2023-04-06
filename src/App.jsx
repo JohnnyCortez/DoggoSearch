@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import MainGallery from "../Components/MainGallery";
-import FilterOptions from "../Components/FilterOptions";
-import SummaryTabs from "../Components/SummaryTab";
+import Home from "../Components/Home";
+import Nav from "../Components/Nav";
 import PetDetails from "../Components/PetDetails";
+import SummaryGraph from "../Components/SummaryGraph";
+import { Route, Routes } from "react-router-dom";
+
 import "./App.css";
 
 //displays current list of fetched pets with information about each
@@ -17,13 +19,6 @@ const API_SECRET = "FPJuhpj020BX2QNoFaAz09uyNNLyjAGQng1UrOnF";
 function App() {
   const [pets, setPets] = useState([]);
   const [accessToken, setAccessToken] = useState("");
-  const [shibaInuCount, setShibaInuCount] = useState(0);
-  const [filters, setFilters] = useState({ age: "", gender: "", size: "" });
-  const [ageMode, setAgeMode] = useState("");
-  const [genderMode, setGenderMode] = useState("");
-  const [sizeMode, setSizeMode] = useState("");
-  const [filteredResults, setFilteredResults] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
 
 
   useEffect(() => {
@@ -48,15 +43,6 @@ function App() {
   useEffect(() => {
     async function getAnimals() {
       let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=1`;
-      if (filters.age) {
-        query += `&age=${filters.age}`;
-      }
-      if (filters.gender) {
-        query += `&gender=${filters.gender}`;
-      }
-      if (filters.size) {
-        query += `&size=${filters.size}`;
-      }
       const response = await fetch(query, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -64,89 +50,25 @@ function App() {
       });
       const data = await response.json();
       setPets(data.animals);
-      const totalCount = data.pagination.total_count;
-      setShibaInuCount(totalCount);
     }
     if (accessToken) {
       getAnimals();
     }
-  }, [accessToken, filters.age, filters.size, filters.gender]);
+  }, [accessToken]);
 
-  useEffect(() => {
-    console.log(pets);
-  }, [pets]);
+  // useEffect(() => {
+  //   console.log(pets);
+  // }, [pets]);
 
-  function handleFilterChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    console.log("this works");
-    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    console.log(filters);
-  }
-
-  function getMode(arr) {
-    const count = arr.reduce((acc, val) => {
-      acc[val] = (acc[val] || 0) + 1;
-      return acc;
-    }, {});
-    const maxCount = Math.max(...Object.values(count));
-    const mode = Object.keys(count).find((key) => count[key] === maxCount);
-    return mode;
-  }
-
-  useEffect(() => {
-    const ageArray = pets.map((pet) => pet.age);
-    const genderArray = pets.map((pet) => pet.gender);
-    const sizeArray = pets.map((pet) => pet.size);
-    setAgeMode(getMode(ageArray));
-    setGenderMode(getMode(genderArray));
-    setSizeMode(getMode(sizeArray));
-  }, [pets, filters.age, filters.size, filters.gender]);
-
-
-  const searchItems = (searchValue) => {
-    console.log("searchValue:", searchValue);
-    console.log("filteredResults", filteredResults)
-    setSearchInput(searchValue);
-    if (searchValue !== "") {
-      const filteredData = pets.filter((item) =>
-        item.name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      setFilteredResults(filteredData);
-      const totalCount = filteredResults.length;
-      setShibaInuCount(totalCount);
-    } else {
-      setFilteredResults(pets);
-    }
-  };
-
-  useEffect(() => {
-    console.log("filteredResults:", filteredResults);
-    // const filteredPets = pets.filter(pet =>
-    //   pet.name.toLowerCase().includes(searchInput.toLowerCase())
-    // );
-    setPets(filteredResults);
-  }, [filteredResults]);
-
-  return (    
-    <div className="App">
-      <div className="heading">
-        <h1>SHIBIE SEARCH</h1>
-        <h2>Adopt Doge (the yellow dog)</h2>
-      </div>
-      <FilterOptions filters={filters} handleChange={handleFilterChange} />
-      <SummaryTabs ageMode={ageMode} sizeMode={sizeMode} genderMode={genderMode} count={shibaInuCount} />
-
-      <input
-        type="text"
-        placeholder="Search..."
-        onChange={(inputString) => searchItems(inputString.target.value)}
-      />
-
-      <div className="body">
-        {(pets.length > 0 && <MainGallery pets={pets} />)}
-      </div>
-    </div>
+  return ( 
+    <div>
+    <Nav pets={pets} />
+    <Routes>
+        <Route index={true} exact path="/" element={<Home />} />
+        <Route index={true} exact path="/Pet/:id" element={<PetDetails />} />
+        <Route index={true} exact path="/SummaryGraph" element={<SummaryGraph />} />
+    </Routes>
+    </div>   
   );
 }
 
