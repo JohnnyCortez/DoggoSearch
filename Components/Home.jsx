@@ -36,7 +36,6 @@ function Home() {
         body: params,
       });
       const data = await response.json();
-      console.log(data);
       setAccessToken(data.access_token);
     }
     getToken();
@@ -46,7 +45,7 @@ function Home() {
   // I added pets in the dependency to get new shiba count with each update in search
   useEffect(() => {
     async function getAnimals() {
-      let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=1`;
+      let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=100`;
       if (filters.age) {
         query += `&age=${filters.age}`;
       }
@@ -71,16 +70,11 @@ function Home() {
     }
   }, [accessToken, filters.age, filters.size, filters.gender]);
 
-  useEffect(() => {
-    console.log(pets);
-  }, [pets]);
 
   function handleFilterChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-    console.log("this works");
     setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    console.log(filters);
   }
 
   function getMode(arr) {
@@ -104,8 +98,6 @@ function Home() {
 
 
   const searchItems = (searchValue) => {
-    console.log("searchValue:", searchValue);
-    console.log("filteredResults", filteredResults)
     setSearchInput(searchValue);
     if (searchValue !== "") {
       const filteredData = pets.filter((item) =>
@@ -120,7 +112,6 @@ function Home() {
   };
 
   useEffect(() => {
-    console.log("filteredResults:", filteredResults);
     // const filteredPets = pets.filter(pet =>
     //   pet.name.toLowerCase().includes(searchInput.toLowerCase())
     // );

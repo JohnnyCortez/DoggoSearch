@@ -20,7 +20,6 @@ function App() {
   const [pets, setPets] = useState([]);
   const [accessToken, setAccessToken] = useState("");
 
-
   useEffect(() => {
     async function getToken() {
       const params = new URLSearchParams();
@@ -42,7 +41,7 @@ function App() {
   // I added pets in the dependency to get new shiba count with each update in search
   useEffect(() => {
     async function getAnimals() {
-      let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=1`;
+      let query = `${petFinderAPI}/animals?type=dog&breed=Shiba%20Inu&limit=100`;
       const response = await fetch(query, {
         headers: {
           Authorization: `Bearer ${accessToken}`,

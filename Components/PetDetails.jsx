@@ -4,9 +4,7 @@ import { useLocation } from "react-router-dom";
 
 function PetDetails(props) {
     const location = useLocation();
-
     const {pet} = location.state;
-    console.log(pet)
   return (
     <div>
       <h2>{pet.name}</h2>

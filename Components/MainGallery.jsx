@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 function MainGallery(props) {
+
   return (
     <div>
       {props.pets.map((pet) => (
